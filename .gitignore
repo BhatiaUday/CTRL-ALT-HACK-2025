@@ -1,0 +1,9 @@
+.anchor
+.DS_Store
+target
+**/*.rs.bk
+node_modules
+test-ledger
+.yarn
+sh/test-ledger-b.sh
+app/frontend/src/idl/nft_ticketing.json
