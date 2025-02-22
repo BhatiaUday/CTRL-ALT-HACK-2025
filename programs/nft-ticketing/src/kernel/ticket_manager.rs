@@ -9,13 +9,11 @@ impl TicketManager {
     pub fn run_buy_ticket(ctx: Context<BuyTicket>, date_of_purchase: i64) -> Result<()> {
         let ticket = &mut ctx.accounts.ticket;
         let event = &ctx.accounts.event;
-
-        // Sécurité : vérifier que l'organisateur fourni (depuis le Front-End) correspond à l'organisateur de l'événement.
         if ctx.accounts.organizer.key() != event.organizer {
             return Err(CustomError::CreateTicketInvalidOrganizer.into());
         }
 
-        ticket.event = event.key(); // Faire la jointure (un ticket doit être joint à un event, un event peut avoir plusieurs tickets).
+        ticket.event = event.key(); 
         ticket.price = event.ticket_price; // Assigner au ticket le prix actuel du billet de l'événement.
         ticket.date_of_purchase = date_of_purchase; // Date de quand le owner a acheté ce ticket.
         ticket.owner = *ctx.accounts.owner.key; // Définit l'acheteur du ticket.
