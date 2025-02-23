@@ -17,7 +17,7 @@ export const handleCreateEvent = async (
     e.preventDefault();
 
     if (!wallet?.publicKey) {
-        toast.error("Veuillez connecter votre portefeuille !");
+        toast.error("Wallet not Connected!!");
         return;
     }
 

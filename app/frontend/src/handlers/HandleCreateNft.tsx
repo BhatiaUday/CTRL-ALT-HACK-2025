@@ -63,7 +63,7 @@ export const handleCreateNft = async (
         const metadata = {
             name: `${event.title} #${ticketNumber}`,
             symbol: event.title.toUpperCase().substring(0, 10), // Limit symbol to 10 characters
-            uri: "https://raw.githubusercontent.com/Coding-and-Crypto/Rust-Solana-Tutorial/refs/heads/master/nfts/mint-nft/assets/example.json",
+            uri: "https://raw.githubusercontent.com/Yashaswini-Sharma/image/refs/heads/main/json.json",
         };
 
         try {

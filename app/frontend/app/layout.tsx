@@ -7,10 +7,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="fr">
+        <html lang="en">
             <body>
-                <title>Anchor NFT Ticketing</title>
-                <meta name="description" content="Plateforme de billetterie NFT basée sur Solana" />
+                <title>Pandas Ticket System</title>
+                <meta name="description" content="The better platform for Tickets" />
                 <AppWalletProvider>{children}</AppWalletProvider>
             </body>
         </html>
