@@ -7,21 +7,18 @@ import { handleCreateEvent } from "../../src/handlers/HandleCreateEvent";
 import Layout from "../../src/components/Layout";
 
 const CreateEvent: React.FC = () => {
-    // État pour les champs du formulaire.
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [date, setDate] = useState<string>("");
-    const [time, setTime] = useState<string>(""); // État pour l'heure
+    const [time, setTime] = useState<string>("");
     const [location, setLocation] = useState<string>("");
-    const [ticketPrice, setTicketPrice] = useState<string>(""); // Valeur en Lamports. PS: 1 SOL = 10^9 Lamports. 1 SOL = 1,000,000,000 Lamports (9 zéros).
-
-    const [ticketPriceInSOL, setTicketPriceInSOL] = useState<string>(""); // Pour afficher la valeur en SOL.
+    const [ticketPrice, setTicketPrice] = useState<string>("");
+    const [ticketPriceInSOL, setTicketPriceInSOL] = useState<string>("");
     const wallet = useAnchorWallet();
 
     useEffect(() => {
         const priceInLamports = parseFloat(ticketPrice);
         if (!isNaN(priceInLamports)) {
-            // Convertir de Lamports à SOL pour pour l'UX.
             setTicketPriceInSOL((priceInLamports / web3.LAMPORTS_PER_SOL).toFixed(9));
         } else {
             setTicketPriceInSOL("");
@@ -40,16 +37,22 @@ const CreateEvent: React.FC = () => {
 
     return (
         <Layout>
-            <div className="flex items-center justify-center">
-                <div className="max-w-md w-full space-y-8 p-10 mt-3 bg-white rounded-xl shadow-md">
-                    <h1 className="text-center text-3xl font-extrabold text-gray-900">Create an Event</h1>
-                    <p className="text-gray-600 mb-4">Create a unique event on the Solana blockchain and securely sell tickets as NFTs.</p>
-                    <form
-                        className="space-y-6"
-                        onSubmit={(e) => handleCreateEvent(e, title, description, date, time, location, ticketPrice, wallet, resetForm)}
-                    >
-                        <div className="rounded-md shadow-sm -space-y-px">
+            <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
+                <div className="max-w-2xl w-full space-y-8 p-8 my-12 bg-black/40 backdrop-blur-sm rounded-xl border border-purple-500/20 shadow-lg">
+                    <div className="text-center space-y-4">
+                        <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+                            Create an Event
+                        </h1>
+                        <p className="text-gray-300">
+                            Create your unique event on the Solana blockchain and securely sell tickets as NFTs.
+                        </p>
+                    </div>
+
+                    <form className="space-y-6"
+                          onSubmit={(e) => handleCreateEvent(e, title, description, date, time, location, ticketPrice, wallet, resetForm)}>
+                        <div className="space-y-4">
                             <div>
+                                <label htmlFor="title" className="block text-purple-400 mb-2">Title</label>
                                 <input
                                     id="title"
                                     name="title"
@@ -57,46 +60,63 @@ const CreateEvent: React.FC = () => {
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                     required
-                                    className="rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md sm:text-sm"
-                                    placeholder="Title"
+                                    className="w-full px-4 py-3 bg-black/30 border border-purple-500/20 rounded-lg
+                                             placeholder-gray-400 text-gray-200 focus:outline-none focus:ring-2 
+                                             focus:ring-purple-500/40 focus:border-transparent transition-colors"
+                                    placeholder="Event Title"
                                 />
                             </div>
+
                             <div>
+                                <label htmlFor="description" className="block text-purple-400 mb-2">Description</label>
                                 <textarea
                                     id="description"
                                     name="description"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                     required
-                                    className="rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 sm:text-sm"
-                                    placeholder="Description"
+                                    rows={4}
+                                    className="w-full px-4 py-3 bg-black/30 border border-purple-500/20 rounded-lg
+                                             placeholder-gray-400 text-gray-200 focus:outline-none focus:ring-2 
+                                             focus:ring-purple-500/40 focus:border-transparent transition-colors"
+                                    placeholder="Event Description"
                                 />
                             </div>
-                            <div>
-                                <input
-                                    id="date"
-                                    name="date"
-                                    type="date"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    required
-                                    className="rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 sm:text-sm"
-                                    placeholder="Date"
-                                />
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label htmlFor="date" className="block text-purple-400 mb-2">Date</label>
+                                    <input
+                                        id="date"
+                                        name="date"
+                                        type="date"
+                                        value={date}
+                                        onChange={(e) => setDate(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-3 bg-black/30 border border-purple-500/20 rounded-lg
+                                                 text-gray-200 focus:outline-none focus:ring-2 
+                                                 focus:ring-purple-500/40 focus:border-transparent transition-colors"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="time" className="block text-purple-400 mb-2">Time</label>
+                                    <input
+                                        id="time"
+                                        name="time"
+                                        type="time"
+                                        value={time}
+                                        onChange={(e) => setTime(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-3 bg-black/30 border border-purple-500/20 rounded-lg
+                                                 text-gray-200 focus:outline-none focus:ring-2 
+                                                 focus:ring-purple-500/40 focus:border-transparent transition-colors"
+                                    />
+                                </div>
                             </div>
+
                             <div>
-                                <input
-                                    id="time"
-                                    name="time"
-                                    type="time"
-                                    value={time}
-                                    onChange={(e) => setTime(e.target.value)}
-                                    required
-                                    className="rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 sm:text-sm"
-                                    placeholder="Time"
-                                />
-                            </div>
-                            <div>
+                                <label htmlFor="location" className="block text-purple-400 mb-2">Location</label>
                                 <input
                                     id="location"
                                     name="location"
@@ -104,11 +124,15 @@ const CreateEvent: React.FC = () => {
                                     value={location}
                                     onChange={(e) => setLocation(e.target.value)}
                                     required
-                                    className="rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 sm:text-sm"
-                                    placeholder="Location"
+                                    className="w-full px-4 py-3 bg-black/30 border border-purple-500/20 rounded-lg
+                                             placeholder-gray-400 text-gray-200 focus:outline-none focus:ring-2 
+                                             focus:ring-purple-500/40 focus:border-transparent transition-colors"
+                                    placeholder="Event Location"
                                 />
                             </div>
+
                             <div>
+                                <label htmlFor="ticketPrice" className="block text-purple-400 mb-2">Ticket Price (Lamports)</label>
                                 <input
                                     id="ticketPrice"
                                     name="ticketPrice"
@@ -116,20 +140,27 @@ const CreateEvent: React.FC = () => {
                                     value={ticketPrice}
                                     onChange={(e) => setTicketPrice(e.target.value)}
                                     required
-                                    className="rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md sm:text-sm"
-                                    placeholder="Ticket Price (Lamports)"
+                                    className="w-full px-4 py-3 bg-black/30 border border-purple-500/20 rounded-lg
+                                             placeholder-gray-400 text-gray-200 focus:outline-none focus:ring-2 
+                                             focus:ring-purple-500/40 focus:border-transparent transition-colors"
+                                    placeholder="Enter price in Lamports"
                                 />
+                                {ticketPrice && (
+                                    <span className="mt-2 block text-purple-400 text-sm">
+                                        ≈ {ticketPriceInSOL} SOL
+                                    </span>
+                                )}
                             </div>
-                            {ticketPrice && <span className="text-gray-600">({ticketPriceInSOL} SOL)</span>}
                         </div>
-                        <div>
-                            <button
-                                type="submit"
-                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-                            >
-                                Create Event
-                            </button>
-                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full py-3 px-6 bg-gradient-to-r from-purple-600 to-purple-800 rounded-lg
+                                     text-white font-semibold hover:opacity-90 transition-all duration-300
+                                     shadow-md hover:shadow-purple-500/20"
+                        >
+                            Create Event
+                        </button>
                     </form>
                 </div>
             </div>

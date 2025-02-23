@@ -2,12 +2,79 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { getAnchorProgram } from "../../src/utils/anchorUtils";
-import { handleCopyToClipboard } from "../../src/utils/various";
 import { PublicKey } from "@solana/web3.js";
 import idl from "../../src/idl/nft_ticketing.json";
 import Layout from "../../src/components/Layout";
+
+const shortenAddress = (address: string, chars = 4) => {
+    return `${address.slice(0, chars)}...${address.slice(-chars)}`;
+};
+
+const EventCard = ({ event }: { event: any }) => {
+    return (
+        <div className="bg-black/40 backdrop-blur-sm rounded-xl border border-purple-500/20 overflow-hidden 
+                        transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 group text-center">
+            {/* Image Container */}
+            <div className="relative aspect-[16/9] w-full overflow-hidden">
+                <Image
+                    src="/placeholder.png"
+                    alt={event.accountData.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+            </div>
+            
+            {/* Content Container */}
+            <div className="p-6 space-y-4">
+                {/* Title */}
+                <h3 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 
+                             bg-clip-text text-transparent">
+                    {event.accountData.title}
+                </h3>
+                
+                {/* Description */}
+                <p className="text-gray-300 text-sm line-clamp-2">
+                    {event.accountData.description}
+                </p>
+                
+                {/* Details */}
+                <div className="space-y-2 border-t border-purple-500/20 pt-4">
+                    <div className="flex flex-col gap-2">
+                        <p className="text-sm">
+                            <span className="text-purple-400">Date:</span>
+                            <span className="text-gray-300 ml-2">
+                                {new Date(event.accountData.date.toNumber() * 1000).toLocaleString()}
+                            </span>
+                        </p>
+                        <p className="text-sm">
+                            <span className="text-purple-400">Location:</span>
+                            <span className="text-gray-300 ml-2">{event.accountData.location}</span>
+                        </p>
+                        <p className="text-sm">
+                            <span className="text-purple-400">Price:</span>
+                            <span className="text-gray-300 ml-2">
+                                {(event.accountData.ticketPrice.toNumber() / 1_000_000_000).toFixed(3)} SOL
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                
+                {/* Action Button */}
+                <Link
+                    href={`/show-event/${event.publicKey.toBase58()}`}
+                    className="block w-full text-center py-3 px-4 bg-gradient-to-r from-purple-600 to-purple-800 
+                             rounded-lg text-white text-sm hover:opacity-90 transition-all duration-300
+                             shadow-md hover:shadow-purple-500/20"
+                >
+                    View Details
+                </Link>
+            </div>
+        </div>
+    );
+};
 
 const ListEvents: React.FC = () => {
     const [events, setEvents] = useState<any[]>([]);
@@ -55,56 +122,17 @@ const ListEvents: React.FC = () => {
 
     return (
         <Layout>
-            <div>
-                <h1 className="text-center text-3xl font-extrabold text-gray-900">List of Events</h1>
-                <p className="text-gray-600 mb-4 mt-4">
-                    Discover all the events created on the Solana blockchain. Click on an event to learn more and securely purchase tickets.
+            <div className="py-8 px-4">
+                <h1 className="text-center text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 mb-6">
+                    List of Events
+                </h1>
+                <p className="text-gray-300 text-lg text-center mb-12 max-w-2xl mx-auto">
+                    Discover all the events created on the <span className="text-purple-400">Solana blockchain</span>. 
+                    Hover over an event to learn more.
                 </p>
-                <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                     {events.map((event, index) => (
-                        <div className="w-full p-10 mt-8 bg-white rounded-xl shadow-md" key={index}>
-                            <h3 className="mb-2">
-                                <b>Title</b>: {event.accountData.title}
-                            </h3>
-                            <p className="mb-2">
-                                <b>Description</b>: {event.accountData.description}
-                            </p>
-                            <p className="mb-2">
-                                <b>Date and Time</b>: {new Date(event.accountData.date.toNumber() * 1000).toLocaleString()}
-                            </p>
-                            <p className="mb-2">
-                                <b>Location</b>: {event.accountData.location}
-                            </p>
-                            <p className="mb-2">
-                                <b>Ticket Price</b>: {(event.accountData.ticketPrice.toNumber() / 1_000_000_000).toFixed(9)} SOL
-                            </p>
-                            <p className="mb-2 flex items-center justify-center">
-                                <b>Organizer's Public Key</b>:{" "}
-                                <span
-                                    className="truncate bg-gray-200 p-1 rounded cursor-pointer ml-2"
-                                    onClick={() => handleCopyToClipboard(event.accountData.organizer.toBase58())}
-                                >
-                                    {event.accountData.organizer.toBase58()}
-                                </span>
-                            </p>
-                            <p className="mb-2 flex items-center justify-center">
-                                <b>Event Public Key</b>:{" "}
-                                <span
-                                    className="truncate bg-gray-200 p-1 rounded cursor-pointer ml-2"
-                                    onClick={() => handleCopyToClipboard(event.publicKey.toBase58())}
-                                >
-                                    {event.publicKey.toBase58()}
-                                </span>
-                            </p>
-                            <p>
-                                <Link
-                                    href={`/show-event/${event.publicKey.toBase58()}`}
-                                    className="group relative inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 mt-4"
-                                >
-                                    Go to Event
-                                </Link>
-                            </p>
-                        </div>
+                        <EventCard key={index} event={event} />
                     ))}
                 </div>
             </div>

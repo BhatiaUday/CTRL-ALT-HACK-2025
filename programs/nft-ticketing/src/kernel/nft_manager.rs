@@ -21,19 +21,16 @@ impl NftManager {
     ) -> Result<()> {
         let ticket = &mut ctx.accounts.ticket;
 
-        // Sécurité : vérifier que le signataire est le propriétaire du ticket.
-        // OPTIMISATION : ajouter un test pour tester cette erreur.
+        
         if ctx.accounts.signer.key() != ticket.owner {
             return Err(CustomError::CreateNftUnauthorizedSigner.into());
         }
 
-        // Sécurité : vérifier si le ticket est déjà joint à un NFT.
-        // OPTIMISATION : ajouter un test pour tester cette erreur.
+        
         if ticket.nft_mint.is_some() {
             return Err(CustomError::TicketAlreadyHasNft.into());
         }
 
-        // Initialiser le NFT
         let cpi_context = CpiContext::new(
             ctx.accounts.token_program.to_account_info(),
             MintTo {
@@ -45,7 +42,6 @@ impl NftManager {
 
         mint_to(cpi_context, 1)?;
 
-        // Créer le compte de metadata
         let cpi_context = CpiContext::new(
             ctx.accounts.token_metadata_program.to_account_info(),
             CreateMetadataAccountsV3 {
@@ -71,7 +67,6 @@ impl NftManager {
 
         create_metadata_accounts_v3(cpi_context, data_v2, false, true, None)?;
 
-        // Créer le compte de master edition
         let cpi_context = CpiContext::new(
             ctx.accounts.token_metadata_program.to_account_info(),
             CreateMasterEditionV3 {
@@ -89,9 +84,6 @@ impl NftManager {
 
         create_master_edition_v3(cpi_context, None)?;
 
-        // Pour joindre le NFT au ticket.
-        // Faire la jointure (un ticket peut optionnellement avoir un NFT, un NFT doit être joint à un ticket).
-        // Lier le NFT au ticket.
         ticket.nft_mint = Some(ctx.accounts.mint.key());
 
         Ok(())

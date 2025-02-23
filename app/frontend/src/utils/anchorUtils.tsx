@@ -6,7 +6,6 @@ import idl from "../idl/nft_ticketing.json";
 
 const { SystemProgram } = web3;
 
-// Assurez-vous que les variables d'environnement sont définies.
 if (!process.env.NEXT_PUBLIC_REACT_APP_SOLANA_NETWORK || !process.env.NEXT_PUBLIC_REACT_APP_SOLANA_COMMITMENT) {
     throw new Error("NEXT_PUBLIC_REACT_APP_SOLANA_NETWORK and NEXT_PUBLIC_REACT_APP_SOLANA_COMMITMENT must be defined");
 }
@@ -60,14 +59,11 @@ export const getAnchorProgram = (wallet: Wallet) => {
         throw new Error("Wallet not connected");
     }
 
-    // Crée une nouvelle connexion à Solana avec l'URL du validateur et le niveau de commitment.
     const connection = new Connection(networkUrl, opts.preflightCommitment);
 
-    // Crée une instance de Provider.
     const provider = new AnchorProvider(connection, wallet, opts);
     setProvider(provider);
 
-    // Initialise le programme Anchor.
     const program = new Program(idl as Idl, provider);
 
     return { program, provider, connection, SystemProgram };

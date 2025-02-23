@@ -12,7 +12,7 @@ export const handleCreateEvent = async (
     location: string,
     ticketPrice: string,
     wallet: ReturnType<typeof useAnchorWallet>,
-    resetForm: () => void, // Ajoutez ce callback
+    resetForm: () => void, 
 ) => {
     e.preventDefault();
 
@@ -21,17 +21,13 @@ export const handleCreateEvent = async (
         return;
     }
 
-    // Récupère le programme Anchor et le Provider.
     const { program, SystemProgram } = getAnchorProgram(wallet);
 
-    // Génère une nouvelle paire de clés pour le compte événement.
     const eventAccount = web3.Keypair.generate();
 
     try {
-        const inputDateTime = new BN(new Date(`${date}T${time}`).getTime() / 1000); // Combiner date et heure, puis convertir en secondes et en BN.
-        const price = new BN(ticketPrice); // Convertir le prix en BN (BigNumber).
-
-        // Envoie la transaction pour créer un événement.
+        const inputDateTime = new BN(new Date(`${date}T${time}`).getTime() / 1000); 
+        const price = new BN(ticketPrice); 
         const txid = await program.methods
             .createEvent(title, description, inputDateTime, location, price)
             .accounts({
@@ -45,7 +41,7 @@ export const handleCreateEvent = async (
         toast.success("Event created successfully!");
         console.log(`Transaction ID: ${txid}`);
 
-        resetForm(); // Reset le formulaire.
+        resetForm(); 
     } catch (err) {
         toast.error("Failed to create event.");
         console.error("Failed to create event.", err);

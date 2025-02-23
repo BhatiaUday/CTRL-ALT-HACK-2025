@@ -14,21 +14,20 @@ impl TicketManager {
         }
 
         ticket.event = event.key(); 
-        ticket.price = event.ticket_price; // Assigner au ticket le prix actuel du billet de l'événement.
-        ticket.date_of_purchase = date_of_purchase; // Date de quand le owner a acheté ce ticket.
-        ticket.owner = *ctx.accounts.owner.key; // Définit l'acheteur du ticket.
+        ticket.price = event.ticket_price; 
+        ticket.date_of_purchase = date_of_purchase; 
+        ticket.owner = *ctx.accounts.owner.key; 
 
-        // Pour joindre le NFT au ticket.
-        ticket.nft_mint = None; // Initialiser avec None pour indiquer qu'il n'y a pas encore de NFT associé (ce n'est visiblement pas obligatoire de mettre cette ligne).
+        
+        ticket.nft_mint = None; 
 
         let lamports = ticket.price;
 
-        // Transférer SOL de l'acheteur à l'organisateur.
-        // OPTIMISATION : ajouter un test pour tester le transfert de lamports.
+        
         invoke(
             &system_instruction::transfer(
                 &ctx.accounts.owner.key(),
-                &event.organizer, // Ceci marche aussi : event.organizer.key()
+                &event.organizer, 
                 lamports,
             ),
             &[

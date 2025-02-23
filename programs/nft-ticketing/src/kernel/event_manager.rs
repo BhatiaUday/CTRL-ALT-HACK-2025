@@ -12,14 +12,14 @@ impl EventManager {
         location: String,
         ticket_price: u64,
     ) -> Result<()> {
-        let event = &mut ctx.accounts.event; // Accède au compte de l'événement.
+        let event = &mut ctx.accounts.event; 
 
         event.title = title;
         event.description = description;
         event.date = date;
         event.location = location;
-        event.organizer = *ctx.accounts.organizer.key; // Définit l'organisateur de l'événement.
-        event.ticket_price = ticket_price; // Assigner en lamports.
+        event.organizer = *ctx.accounts.organizer.key; 
+        event.ticket_price = ticket_price; 
 
         Ok(())
     }
