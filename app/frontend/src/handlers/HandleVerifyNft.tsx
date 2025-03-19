@@ -33,13 +33,13 @@ export const handleVerifyNft = async (e: React.FormEvent, nftPublicKey: string, 
             return nftMint && nftMint.equals(new PublicKey(nftPublicKey));
         });
         if (!ticket) {
-            toast.error("Aucun ticket associé à cet événement pour ce NFT.");
+            toast.error("Failed to Veryfy Ticket.");
             return;
         }
 
         toast.success("NFT verified successfully!");
     } catch (err) {
-        toast.error("Failed to verify NFT.");
-        console.error("Failed to verify NFT.", err);
+        toast.error("Failed to verify Ticket.");
+        console.error("Failed to verify Ticket.", err);
     }
 };

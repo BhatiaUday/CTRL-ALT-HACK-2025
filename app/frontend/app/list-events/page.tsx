@@ -20,13 +20,13 @@ const EventCard = ({ event }: { event: any }) => {
             {/* Image Container */}
             <div className="relative aspect-[16/9] w-full overflow-hidden">
                 <Image
-                    src="/placeholder.png"
+                    src="/events.jpg"
                     alt={event.accountData.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
             </div>
-            
+
             {/* Content Container */}
             <div className="p-6 space-y-4">
                 {/* Title */}
@@ -34,12 +34,12 @@ const EventCard = ({ event }: { event: any }) => {
                              bg-clip-text text-transparent">
                     {event.accountData.title}
                 </h3>
-                
+
                 {/* Description */}
                 <p className="text-gray-300 text-sm line-clamp-2">
                     {event.accountData.description}
                 </p>
-                
+
                 {/* Details */}
                 <div className="space-y-2 border-t border-purple-500/20 pt-4">
                     <div className="flex flex-col gap-2">
@@ -61,7 +61,7 @@ const EventCard = ({ event }: { event: any }) => {
                         </p>
                     </div>
                 </div>
-                
+
                 {/* Action Button */}
                 <Link
                     href={`/show-event/${event.publicKey.toBase58()}`}
@@ -127,7 +127,7 @@ const ListEvents: React.FC = () => {
                     List of Events
                 </h1>
                 <p className="text-gray-300 text-lg text-center mb-12 max-w-2xl mx-auto">
-                    Discover all the events created on the <span className="text-purple-400">Solana blockchain</span>. 
+                    Discover all the events created on the <span className="text-purple-400">Solana blockchain</span>.
                     Hover over an event to learn more.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">

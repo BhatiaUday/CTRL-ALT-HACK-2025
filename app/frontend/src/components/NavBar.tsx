@@ -5,9 +5,11 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import BalanceDisplay from "./wallet/BalanceDisplay";
 import NetworkName from "./wallet/NetworkName";
 import Image from "next/image";
+import { useAnchorWallet } from "@solana/wallet-adapter-react";
 
 const NavBar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const wallet = useAnchorWallet();
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -20,24 +22,24 @@ const NavBar: React.FC = () => {
                     {/* Left section */}
                     <div className="flex items-center gap-6">
                         <li>
-                            <Link 
-                                href="/create-event" 
+                            <Link
+                                href="/create-event"
                                 className="text-gray-200 font-medium tracking-wide no-underline p-2 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 ease-in-out"
                             >
                                 Create an Event
                             </Link>
                         </li>
                         <li>
-                            <Link 
-                                href="/list-events" 
+                            <Link
+                                href="/list-events"
                                 className="text-gray-200 font-medium tracking-wide no-underline p-2 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 ease-in-out"
                             >
                                 List of Events
                             </Link>
                         </li>
                         <li>
-                            <Link 
-                                href="/verify-nft" 
+                            <Link
+                                href="/verify-nft"
                                 className="text-gray-200 font-medium tracking-wide no-underline p-2 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 ease-in-out"
                             >
                                 Verify an NFT
@@ -55,7 +57,7 @@ const NavBar: React.FC = () => {
                                 height={40}
                                 className="rounded-full border border-purple-500/20 group-hover:border-purple-500/50 transition-all duration-300"
                             />
-                            <span className="text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-purple-600 
+                            <span className="text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-purple-600
                                          bg-clip-text text-transparent uppercase tracking-normal">
                                 PANDAS
                             </span>
@@ -77,6 +79,9 @@ const NavBar: React.FC = () => {
                         <li>
                             <WalletMultiButton style={{}} />
                         </li>
+                        <li>
+                            <DangerIcon />
+                        </li>
                     </div>
                 </ul>
 
@@ -93,7 +98,7 @@ const NavBar: React.FC = () => {
                             height={40}
                             className="rounded-full border border-purple-500/20 group-hover:border-purple-500/50 transition-all duration-300"
                         />
-                        <span className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-purple-600 
+                        <span className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-purple-600
                                      bg-clip-text text-transparent uppercase tracking-normal">
                             PANDAS
                         </span>
@@ -117,8 +122,8 @@ const NavBar: React.FC = () => {
                         </Link>
                     </li>
                     <li className="w-full text-center">
-                        <Link 
-                            href="/create-event" 
+                        <Link
+                            href="/create-event"
                             className="block text-gray-200 font-medium tracking-wide no-underline p-3 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 ease-in-out"
                             onClick={toggleMenu}
                         >
@@ -126,8 +131,8 @@ const NavBar: React.FC = () => {
                         </Link>
                     </li>
                     <li className="w-full text-center">
-                        <Link 
-                            href="/list-events" 
+                        <Link
+                            href="/list-events"
                             className="block text-gray-200 font-medium tracking-wide no-underline p-3 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 ease-in-out"
                             onClick={toggleMenu}
                         >
@@ -135,8 +140,8 @@ const NavBar: React.FC = () => {
                         </Link>
                     </li>
                     <li className="w-full text-center">
-                        <Link 
-                            href="/verify-nft" 
+                        <Link
+                            href="/verify-nft"
                             className="block text-gray-200 font-medium tracking-wide no-underline p-3 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 ease-in-out"
                             onClick={toggleMenu}
                         >
@@ -163,3 +168,7 @@ const NavBar: React.FC = () => {
 };
 
 export default NavBar;
+
+const DangerIcon = () => {
+    return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+}
