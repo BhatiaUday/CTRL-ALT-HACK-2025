@@ -71,13 +71,13 @@ const Home: React.FC = () => {
                             >
                                 Get Started Now
                             </Link>
-                            <Link
+                            {/* <Link
                                 href="/list-events"
                                 className="px-8 py-4 border border-purple-500/20 rounded-xl text-purple-400 font-semibold 
                                          text-lg hover:bg-purple-500/10 transition-all duration-300"
                             >
                                 Explore Events
-                            </Link>
+                            </Link> */}
                         </div>
                     </div>
 
