@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { getAnchorProgram } from "../../src/utils/anchorUtils";
 import { PublicKey } from "@solana/web3.js";
-import idl from "../../src/idl/nft_ticketing.json";
+import idl from "./nft_ticketing.json";
 import Layout from "../../src/components/Layout";
 
 const shortenAddress = (address: string, chars = 4) => {
